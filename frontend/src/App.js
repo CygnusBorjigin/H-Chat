@@ -1,8 +1,7 @@
-import './App.css';
 
 function App() {
   return (
-    <div>
+    <div className="text-center text-4xl">
 	  the frontend is working
     </div>
   );
