@@ -1,8 +1,19 @@
+// importing frameworks
 const express = require('express');
+const cors = require('cors');
+const path = require('path');
+
+// import modules
+const connectDB = require('./config/db.js');
+
+// configure the server
 const app = express();
+app.use(cors());
+
+connectDB();
 
 app.get('/', (req, res) => {
-	res.send("The srever is working");
+	res.send("The server is working");
 });
 
 app.get('/:id', (req, res) => {

@@ -1,0 +1,4 @@
+{
+	"mongoURI": "mongodb+srv://SomeoneAdmin:mi7qRHJuPJLQgz9i@hacktaniumthingsv01.6ngov.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+	"jwtSecret": "somethingreallyscret"
+}
