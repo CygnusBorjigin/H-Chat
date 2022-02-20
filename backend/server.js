@@ -23,5 +23,6 @@ app.get('/:id', (req, res) => {
 
 // connect to top level route
 app.use('/api/user', require('./routes/api/user/gateway.js'));
+app.use('/api/auth', require('./routes/api/auth/gateway.js'));
 
 app.listen(5001, console.log("server running on 5001"));
