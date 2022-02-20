@@ -64,7 +64,6 @@ register.post('/',
 				res.status(500).json({
                             	errors: "server error",
 				});
-				console.log(error);
 			}
 		}
 	}
