@@ -1,6 +1,7 @@
 // import framework
 const express = require('express');
 const gateway = express.Router();
+const cors = require('cors');
 const { check, validationResult } = require('express-validator');
 
 // configure server
