@@ -10,4 +10,6 @@ gateway.get('/', (req, res) => {
 	res.send('This is the chat route');
 });
 
+gateway.use('/conversation', require('./conversation.js'));
+
 module.exports = gateway;
