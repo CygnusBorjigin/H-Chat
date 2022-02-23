@@ -24,7 +24,7 @@ app.get('/:id', (req, res) => {
 // connect to top level route
 app.use('/api/user', require('./routes/api/user/gateway.js'));
 app.use('/api/auth', require('./routes/api/auth/gateway.js'));
-app.use('/api/chat', require('./routes/api/h_chat/chat/gateway.js'));
+app.use('/api/chat', require('./routes/api/h_chat/conversation/gateway.js'));
 
 const PORT = 5001;
 app.listen(PORT, console.log(`Server is running on ${PORT}`));
