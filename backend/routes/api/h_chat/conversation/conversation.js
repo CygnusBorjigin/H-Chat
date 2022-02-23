@@ -38,9 +38,15 @@ conversation.post('/',
 				} else if (member.length < 2) {
 					res.status(400).json({ message: "At least two members are required to start a conversation"});
 				} else {
+					// get the name of the users
+					const user_names = await Promise.all(member.map(async each => {
+						const user_name = await User.findById(each);
+						return user_name.name;
+					}));
+					console.log(user_names);
 					// Create a new conversation
 					const newConversation = new Conversation({
-						conversationName: member.join(" "),
+						conversationName: user_names.join(' '),
 						groupChat: member.length === 2 ? false : true,
 						user: member,
 						latest: null,
