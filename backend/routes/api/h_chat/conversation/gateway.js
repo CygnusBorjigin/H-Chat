@@ -11,5 +11,6 @@ gateway.get('/', (req, res) => {
 });
 
 gateway.use('/conversation', require('./conversation.js'));
+gateway.use('/message', require('./message.js'));
 
 module.exports = gateway;
