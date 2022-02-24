@@ -61,30 +61,35 @@ conversation.post('/',
 // PRIVATE | PUT add a new member to the conversation
 conversation.put('/addmember',
 	auth,
+	check('conversationID', 'Need an id for the conversation to the modified').exists(),
 	check('admin', 'An user ID is need to verify access').exists(),
 	check('new_member', 'An user ID is needed to add new user').exists(),
 	async (req, res) => {
-		//check if anything is messing in the req
-		const errors = validationResult(req);
-		if (!errors.isEmpty()) return res.status(400).json({ message: errors.array()});
-		res.send(req.user);
-	})
+		try {
+			//check if anything is messing in the req
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) return res.status(400).json({ message: errors.array()});
 
+			// check if the conversation exist
+			const { conversationID, admin, new_member } = req.body;
+			const mod_conversation = await Conversation.findById(conversationID);
+			if ( mod_conversation === null ) return res.status(400).json({ message: "The conversation does not exist"});
 
+			// check the user info
+			const group_admin = await User.findById(admin);
+			const new_member_info = await User.findById(new_member);
+			if (String(group_admin._id) !== String(mod_conversation.groupAdmin)) return res.status(401).json({ message: "The user is not the admin" });
+			if (group_admin === null || new_member_info === null) return res.status(400).json({ message: "The user does not exist"});
+			if (mod_conversation.user.includes(new_member_info.id)) return res.status(400).json({ message: "The user is already a member"});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+			// modify the conversation
+			mod_conversation.user.push(new_member_info.id);
+			mod_conversation.save();
+			res.status(200).send(mod_conversation);
+		} catch (err) {
+			console.log(err);
+			res.status(500).json({ message: "server error"});
+		}
+	});
 
 module.exports = conversation;
