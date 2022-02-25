@@ -49,5 +49,28 @@ message.post('/',
 		}
 	});
 
+// PRIVATE | POST request all the messages from a conversation
+message.post('/onechat',
+	auth,
+	check('conversationID', 'A ID is needed to fetch the messages'),
+	async (req, res) => {
+		try {
+			const errors = validationResult(req);
+			if (!errors.isEmpty()) return res.status(400).json({ message:errors.array() });
+
+			// check for access
+			const { conversationID } = req.body;
+			const get_conversation = await Conversation.findById(conversationID);
+			if (get_conversation === null) res.status(400).json({ message: "The conversation does not exist" });
+			if (!get_conversation.user.includes(req.user.id)) return res.status(401).json({ message: "The user does not have access to this conversation"});
+
+			// get all the message
+			const all_message_raw = await Message.find( {chat: conversationID} );
+			res.send(all_message_raw);
+		} catch (err) {
+			res.status(500).json({ message: "server error"});
+		}
+	});
+
 
 module.exports = message;
